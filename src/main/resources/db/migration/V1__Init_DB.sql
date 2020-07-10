@@ -25,6 +25,14 @@ create table if not exists order_item (
     g_sum float not null
 );
 
-ALTER TABLE if exists order_item
-ADD CONSTRAINT order_key
+ALTER TABLE order_item
+ADD CONSTRAINT item_order_key
 UNIQUE (id, order_id, goods_id);
+
+ALTER TABLE order_item
+ADD CONSTRAINT order_key
+FOREIGN KEY (order_id) REFERENCES orders(id);
+
+ALTER TABLE order_item
+ADD CONSTRAINT goods_key
+FOREIGN KEY (goods_id) REFERENCES ref_goods(id);
