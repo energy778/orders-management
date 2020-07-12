@@ -14,15 +14,25 @@ public class OrderItem {
     private Integer id;
 
     @ManyToOne(optional=false)
-    @JoinColumn(name = "goods_id")
+    @JoinColumn(name = "goods_id",
+            nullable = false,
+            foreignKey = @ForeignKey(name =  "fk_goods"))
     private Goods goodsItem;
 
     private Float price;
     private Integer quantity;
     private Float sum;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "order_id")
+    @ManyToOne(fetch = FetchType.LAZY
+    )
+//    @JoinColumn(name =  "parent_id",
+//            nullable = false,
+//            foreignKey = @ForeignKey(name =  "fk_parent"))
+    @JoinColumn(name = "parent_id",
+            nullable = false,
+            referencedColumnName = "id"
+//            foreignKey = @ForeignKey(name =  "fk_parent")
+    )
     private Order order;
 
 }

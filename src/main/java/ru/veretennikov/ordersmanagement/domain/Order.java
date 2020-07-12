@@ -3,7 +3,7 @@ package ru.veretennikov.ordersmanagement.domain;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -17,12 +17,17 @@ public class Order {
 
     private Long num;
 
-    @Column(name = "order_time", columnDefinition = "TIMESTAMP")
-    private LocalDate orderTime;
+    @Column(name = "order_time",
+            columnDefinition = "TIMESTAMP")
+    private LocalDateTime orderTime;
 
     private String customer;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "order")
+    @OneToMany(fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+//            mappedBy = "order"
+    )
     private List<OrderItem> items;
 
 }
