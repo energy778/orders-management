@@ -5,11 +5,11 @@ spring:
     password: 123
   jpa:
     hibernate:
-      ddl-auto: validate
-    generate-ddl: false    # структуру обслуживает Spring
+      ddl-auto: update
+    generate-ddl: true    # структуру обслуживает Spring
     properties:
       hibernate:
         jdbc:
           lob:
             non_contextual_creation: true
-    show-sql: false         # включаем во время отладки
+    show-sql: true         # включаем во время отладки
