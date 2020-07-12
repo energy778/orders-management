@@ -23,16 +23,4 @@ public class OrderItem {
     private Integer quantity;
     private Float sum;
 
-    @ManyToOne(fetch = FetchType.LAZY
-    )
-//    @JoinColumn(name =  "parent_id",
-//            nullable = false,
-//            foreignKey = @ForeignKey(name =  "fk_parent"))
-    @JoinColumn(name = "parent_id",
-            nullable = false,
-            referencedColumnName = "id"
-//            foreignKey = @ForeignKey(name =  "fk_parent")
-    )
-    private Order order;
-
 }

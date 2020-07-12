@@ -26,7 +26,6 @@ public class Order {
     @OneToMany(fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
             orphanRemoval = true
-//            mappedBy = "order"
     )
     private List<OrderItem> items;
 
