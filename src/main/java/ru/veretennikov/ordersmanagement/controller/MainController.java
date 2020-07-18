@@ -1,6 +1,5 @@
 package ru.veretennikov.ordersmanagement.controller;
 
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.veretennikov.ordersmanagement.domain.Goods;
@@ -10,7 +9,7 @@ import ru.veretennikov.ordersmanagement.service.OrderService;
 
 import java.util.List;
 
-@Controller
+@RestController
 public class MainController {
 
     private final OrderService orderService;
@@ -21,50 +20,41 @@ public class MainController {
         this.goodsService = goodsService;
     }
 
-    @GetMapping("/greeting")
-    public String greeting(@RequestParam(name="name", required=false, defaultValue="World") String name,
-                           Model model) {
-        model.addAttribute("name", name);
-        return "greeting";
-    }
+//    @GetMapping("/greeting")
+//    public String greeting(@RequestParam(name="name", required=false, defaultValue="World") String name,
+//                           Model model) {
+//        model.addAttribute("name", name);
+//        return "greeting";
+//    }
 
     @GetMapping("/orders")
-//    @GetMapping(path = "/orders", consumes = "application/json", produces = "application/json")
-    public String orders(Model model){
-        List<Order> orders = orderService.getAllOrders();
-        model.addAttribute("orders", orders);
-        return "orders";
+//    @GetMapping(path = "/orders", consumes = "application/json", produces = "application/xml")
+    public List<Order> orders(Model model){
+        return orderService.getAllOrders();
     }
 
     @GetMapping("/orders/{orderId}")
-    public String order(@PathVariable Integer orderId,
+    public Order order(@PathVariable Integer orderId,
                          Model model){
-        Order order = orderService.getOrderById(orderId).orElse(new Order());
-        model.addAttribute("order", order);
-        return "order";
+        return orderService.getOrderById(orderId).orElse(new Order());
     }
 
     @PostMapping("/orders/{orderId}")
-    public String saveOrder(@PathVariable Integer orderId,
-                            @RequestParam Order order,
+    public Order saveOrder(@RequestBody Order order,
                             Model model){
-        // почему маппится по id?
-        orderService.save(order);
-        return "order";
+        return orderService.save(order);
     }
 
-    @DeleteMapping("/orders/{orderId}")
+    @PostMapping("/orders/{orderId}/delete")
     public String deleteOrder(@PathVariable Integer orderId,
                               Model model){
         orderService.deleteById(orderId);
-        return "order";
+        return "good job";
     }
 
     @GetMapping("/goods")
-    public String goods(Model model){
-        List<Goods> goods = goodsService.getAllGoods();
-        model.addAttribute("goods", goods);
-        return "goods";
+    public List<Goods> goods(Model model){
+        return goodsService.getAllGoods();
     }
 
 }
