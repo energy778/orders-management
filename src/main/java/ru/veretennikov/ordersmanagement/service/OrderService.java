@@ -10,6 +10,6 @@ public interface OrderService {
     Optional<Order> getOrderById(Integer id);
     List<Order > getAllOrders();
     Order save(Order order);
-    void delete(Order order);
+    void deleteById(Integer orderId);
 
 }

@@ -27,8 +27,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void delete(Order order) {
-        repository.delete(order);
+    public void deleteById(Integer orderId) {
+        repository.deleteById(orderId);
     }
 
     @Override
