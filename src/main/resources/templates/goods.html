@@ -26,32 +26,16 @@
             <table class="table table-hover table-sm" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                 <tr>
-                    <th>Номер заказа</th>
-                    <th>Заказчик</th>
-                    <th>Время заказа</th>
-                    <th>Сумма заказа</th>
+                    <th>Идентификатор</th>
+                    <th>Наименование</th>
+                    <th>Цена</th>
                 </tr>
                 </thead>
-                <tfoot>
-                <tr>
-                    <th></th>
-                    <th></th>
-                    <th>Итого:</th>
-                    <th th:if="${sum != 0 && sum != null}"
-                        th:text="${#numbers.formatDecimal(sum, 0, 'COMMA', 2, 'POINT')}">
-                    </th>
-                </tr>
-                </tfoot>
                 <tbody>
-                <tr th:each="order : ${orders}">
-                    <td th:text="${order.num}"></td>
-                    <td th:text="${order.customer}"></td>
-                    <td th:text="${#temporals.format(order.orderTime, 'dd-MM-yyyy HH:mm')}"></td>
-                    <td th:text="${#numbers.formatDecimal(order.sum, 0, 'COMMA', 2, 'POINT')}"></td>
-                    <td>
-                        <button type="submit" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Редактировать">V</button>
-                        <button type="submit" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Удалить">X</button>
-                    </td>
+                <tr th:each="goodsItem : ${goods}">
+                    <td th:text="${goodsItem.id}"></td>
+                    <td th:text="${goodsItem.name}"></td>
+                    <td th:text="${#numbers.formatDecimal(goodsItem.price, 0, 'COMMA', 2, 'POINT')}"></td>
                 </tr>
                 </tbody>
             </table>

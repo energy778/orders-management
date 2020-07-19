@@ -22,17 +22,20 @@ public class MainController {
         this.goodsService = goodsService;
     }
 
+    @GetMapping("/goods")
+    public ModelAndView goods(ModelAndView modelAndView){
+        modelAndView.setViewName("goods.html");
+        modelAndView.addObject("goods", goodsService.getAllGoods());
+        return modelAndView;
+    }
+
     @GetMapping("/orders")
     public ModelAndView orders(ModelAndView modelAndView){
-
         modelAndView.setViewName("orders.html");
         List<OrderDTO> allOrders = orderService.getAllOrders();
         modelAndView.addObject("orders", allOrders);
-        modelAndView.addObject("sum",
-                allOrders.stream().mapToDouble(OrderDTO::getSum).sum());
-
+        modelAndView.addObject("sum", allOrders.stream().mapToDouble(OrderDTO::getSum).sum());
         return modelAndView;
-
     }
 
 //    @GetMapping("/orders/{orderId}")
@@ -53,10 +56,5 @@ public class MainController {
 //        orderService.deleteById(orderId);
 //        return "good job";
 //    }
-
-    @GetMapping("/goods")
-    public List<Goods> goods(Model model){
-        return goodsService.getAllGoods();
-    }
 
 }
