@@ -20,10 +20,10 @@
             </thead>
             <tfoot>
             <tr>
-                <th>Номер заказа</th>
-                <th>Заказчик</th>
-                <th>Время заказа</th>
-                <th>Сумма заказа</th>
+                <th></th>
+                <th></th>
+                <th>Итого:</th>
+                <th th:text="${sum}"></th>
             </tr>
             </tfoot>
             <tbody>
@@ -31,7 +31,7 @@
                 <td th:text="${order.num}"></td>
                 <td th:text="${order.customer}"></td>
                 <td th:text="${#temporals.format(order.orderTime, 'dd-MM-yyyy HH:mm')}"></td>
-                <td th:text="'здесь будет сумма заказа'"></td>
+                <td th:text="${order.sum}"></td>
             </tr>
             </tbody>
         </table>

@@ -1,15 +1,14 @@
 package ru.veretennikov.ordersmanagement.service;
 
-import ru.veretennikov.ordersmanagement.domain.Order;
+import ru.veretennikov.ordersmanagement.dto.OrderDTO;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface OrderService {
 
-    Optional<Order> getOrderById(Integer id);
-    List<Order > getAllOrders();
-    Order save(Order order);
-    void deleteById(Integer orderId);
+    List<OrderDTO> getAllOrders();
+//    Optional<OrderDTO> getOrderById(Integer id);
+//    OrderDTO save(OrderDTO order);
+//    void deleteById(Integer orderId);
 
 }
