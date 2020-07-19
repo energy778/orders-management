@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+
+<body>
+
+    <div class="table-responsive">
+        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <thead>
+            <tr>
+                <th>Номер заказа</th>
+                <th>Заказчик</th>
+                <th>Время заказа</th>
+                <th>Сумма заказа</th>
+            </tr>
+            </thead>
+            <tfoot>
+            <tr>
+                <th>Номер заказа</th>
+                <th>Заказчик</th>
+                <th>Время заказа</th>
+                <th>Сумма заказа</th>
+            </tr>
+            </tfoot>
+            <tbody>
+            <tr th:each="order : ${orders}">
+                <td th:text="${order.num}"></td>
+                <td th:text="${order.customer}"></td>
+                <td th:text="${#temporals.format(order.orderTime, 'dd-MM-yyyy HH:mm')}"></td>
+                <td th:text="'здесь будет сумма заказа'"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+
+</html>
