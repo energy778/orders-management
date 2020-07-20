@@ -1,9 +1,7 @@
 package ru.veretennikov.ordersmanagement.controller;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import ru.veretennikov.ordersmanagement.domain.Order;
 import ru.veretennikov.ordersmanagement.dto.OrderDTO;
@@ -30,11 +28,12 @@ public class MainController {
         return modelAndView;
     }
 
-    @GetMapping("/orders")
+    @RequestMapping(value = {"/", "/orders"}, method = RequestMethod.GET)
     public ModelAndView orders(ModelAndView modelAndView){
         modelAndView.setViewName("orders.html");
         List<OrderDTO> allOrders = orderService.getAllOrders();
         modelAndView.addObject("orders", allOrders);
+        modelAndView.addObject("order", new Order());
         modelAndView.addObject("sum", allOrders.stream().mapToDouble(OrderDTO::getSum).sum());
         return modelAndView;
     }
@@ -43,6 +42,7 @@ public class MainController {
     public ModelAndView order(@PathVariable Integer orderId, ModelAndView modelAndView){
         modelAndView.setViewName("order.html");
         modelAndView.addObject("order", orderService.getOrderById(orderId).orElse(new Order()));
+        modelAndView.addObject("goods", goodsService.getAllGoods());
         return modelAndView;
     }
 
@@ -52,10 +52,15 @@ public class MainController {
         return "redirect:/orders";
     }
 
-//    @PostMapping("/orders/{orderId}")
-//    public OrderDTO saveOrder(@RequestBody OrderDTO order,
-//                            Model model){
-//        return orderService.save(order);
+    @PostMapping("/orders")
+    public String saveOrder(@RequestBody Order order){
+        orderService.save(order);
+        return "redirect:/orders";
+    }
+//    @PostMapping("/orders")
+//    public String saveOrder(@RequestParam Integer inputNum){
+//        System.out.println(inputNum);
+//        return "redirect:/orders";
 //    }
 
 }

@@ -32,9 +32,9 @@ public class OrderServiceImpl implements OrderService {
         repository.deleteById(orderId);
     }
 
-//    @Override
-//    public Order save(Order order) {
-//        return repository.save(order);
-//    }
+    @Override
+    public Order save(Order order) {
+        return repository.save(order);
+    }
 
 }

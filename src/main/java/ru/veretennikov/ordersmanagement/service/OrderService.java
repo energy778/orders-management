@@ -7,10 +7,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface OrderService {
-
     List<OrderDTO> getAllOrders();
     Optional<Order> getOrderById(Integer id);
     void deleteById(Integer orderId);
-//    OrderDTO save(OrderDTO order);
-
+    Order save(Order order);
 }

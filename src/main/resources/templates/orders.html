@@ -10,6 +10,50 @@
 
 <th:block th:insert="~{/parts/common.html :: topbar}"></th:block>
 
+<!--<form class="form" action="#" data-th-action="@{/orders}" data-th-object="${order}" method="post">-->
+<!--    <div class="table responsive">-->
+<!--        <table class="no-border-on-me table ">-->
+<!--            <thead>-->
+<!--            <tr>-->
+<!--                <th class="col-xs-1"></th>-->
+<!--                <th class="col-xs-3" data-th-text="#{order.num.label}">Номер заказа</th>-->
+<!--                <th class="col-xs-2" data-th-text="#{order.orderTime.label}">Дата заказа</th>-->
+<!--                <th class="col-xs-2" data-th-text="#{order.customer.label}">Покупатель</th>-->
+<!--            </tr>-->
+<!--            </thead>-->
+<!--            <tbody>-->
+<!--            <tr>-->
+<!--                <td><input type="text" hidden="hidden" data-th-field="*{id}"></input></td>-->
+<!--                <td><input class="form-control" type="text" data-th-field="*{username}" placeholder="Username"></input></td>-->
+<!--                <td><input class="form-control" type="text" data-th-field="*{password}" placeholder="Password"></input></td>-->
+<!--                <td>-->
+<!--                    <select class="form-control" th:field="*{enabled}">-->
+<!--                        <option th:each="type : ${enabledOptions}" th:value="${type}" th:text="${type}">Dropdown</option>-->
+<!--                    </select>-->
+<!--                </td>-->
+<!--                <td>-->
+<!--                    <select class="form-control" th:field="*{roleId}">-->
+<!--                        <option th:each="role : ${allRoles}" th:value="${role.id}" th:text="${role.rolename}">Dropdown</option>-->
+<!--                    </select>-->
+<!--                </td>-->
+<!--                <td>-->
+<!--                    <button type="submit" class="btn btn-primary" data-th-text="#{button.label.add}">Add User</button>-->
+<!--                </td>-->
+<!--            </tr>-->
+<!--&lt;!&ndash;            валидация   &ndash;&gt;-->
+<!--&lt;!&ndash;            <tr>&ndash;&gt;-->
+<!--&lt;!&ndash;                <td class="col-xs-1"></td>&ndash;&gt;-->
+<!--&lt;!&ndash;                <td class="col-xs-3 text-danger" data-th-if="${#fields.hasErrors('username')}" data-th-errors="*{username}">username error</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                <td class="col-xs-2 text-danger" data-th-if="${#fields.hasErrors('password')}" data-th-errors="*{password}">password error</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                <td class="col-xs-2 text-danger" data-th-if="${#fields.hasErrors('enabled')}" data-th-errors="*{enabled}">enabled error</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                <td class="col-xs-3 text-danger" data-th-if="${#fields.hasErrors('roleId')}" data-th-errors="*{roleId}">role error</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                <td class="col-xs-1"></td>&ndash;&gt;-->
+<!--&lt;!&ndash;            </tr>&ndash;&gt;-->
+<!--            </tbody>-->
+<!--        </table>-->
+<!--    </div>-->
+<!--</form>-->
+
 <div class="container-fluid">
     <div class="row">
         <div class="table-responsive">
