@@ -39,8 +39,18 @@
                     <td th:text="${#temporals.format(order.orderTime, 'dd-MM-yyyy HH:mm')}"></td>
                     <td th:text="${#numbers.formatDecimal(order.sum, 0, 'COMMA', 2, 'POINT')}"></td>
                     <td>
-                        <button type="submit" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Редактировать">V</button>
-                        <button type="submit" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Удалить">X</button>
+                        <form th:action="@{/orders/{id} (id=${order.id})}" >
+                            <input type="submit" class="btn btn-primary btn-sm"
+                                   data-toggle="tooltip" data-placement="top" title="Редактировать"
+                                   value="V">
+                        </form>
+                    </td>
+                    <td>
+                        <form role="form" th:method="POST" th:object="${order}" th:action="@{/orders.html}">
+                            <input class="btn btn-primary btn-sm" th:formaction="@{/orders/{id}/delete (id=${order.id})}"
+                                   th:method="POST" type="submit" value="X"
+                                   data-toggle="tooltip" data-placement="top" title="Удалить"/>
+                        </form>
                     </td>
                 </tr>
                 </tbody>
