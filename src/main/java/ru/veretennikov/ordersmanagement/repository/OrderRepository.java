@@ -21,7 +21,7 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
 
     @Query(value = "SELECT " +
             "new ru.veretennikov.ordersmanagement.dto.OrderDTO" +
-            "(t1.id, t1.num, t1.orderTime, t1.customer, sum(t2.sum)) " +
+            "(t1.id, t1.num, t1.orderTime, t1.customer, sum(coalesce(t2.sum, 0))) " +
             "FROM Order as t1 " +
             " LEFT JOIN t1.items as t2 " +
 //            " WHERE t1.id = 2 " +

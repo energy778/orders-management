@@ -1,6 +1,7 @@
 package ru.veretennikov.ordersmanagement.domain;
 
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -18,8 +19,8 @@ public class Order {
 
     private Long num;
 
-    @Column(name = "order_time",
-            columnDefinition = "TIMESTAMP")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    @Column(name = "order_time", columnDefinition = "TIMESTAMP")
     private LocalDateTime orderTime;
 
     private String customer;

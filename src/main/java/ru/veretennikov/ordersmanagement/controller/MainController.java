@@ -53,14 +53,9 @@ public class MainController {
     }
 
     @PostMapping("/orders")
-    public String saveOrder(@RequestBody Order order){
+    public String saveOrder(@ModelAttribute("order") Order order){
         orderService.save(order);
         return "redirect:/orders";
     }
-//    @PostMapping("/orders")
-//    public String saveOrder(@RequestParam Integer inputNum){
-//        System.out.println(inputNum);
-//        return "redirect:/orders";
-//    }
 
 }

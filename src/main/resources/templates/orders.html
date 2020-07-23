@@ -10,6 +10,34 @@
 
 <th:block th:insert="~{/parts/common.html :: topbar}"></th:block>
 
+<form role="form" method="post" th:object="${order}" th:action="@{/orders}">
+<!--или направляем на обработчик создания или на обработчик редактирования: разница только в том, что при создании проверяется, нет ли уже такой сущности
+но по сути это можно сделать и в рамках одного обработчика-->
+
+    <div class="form-group row">
+        <label class="col-lg-3 col-form-label form-control-label">Номер заказа</label>
+        <div class="col-lg-9">
+            <input type="number" class="form-control" th:field="*{num}" placeholder="Номер заказа">
+        </div>
+        <label class="col-lg-3 col-form-label form-control-label">Время заказа</label>
+        <div class="col-lg-9">
+            <input type="datetime-local" class="form-control" th:field="*{orderTime}" placeholder="Время заказа">
+        </div>
+        <label class="col-lg-3 col-form-label form-control-label">Заказчик</label>
+        <div class="col-lg-9">
+            <input type="email" class="form-control" th:field="*{customer}" placeholder="Заказчик">
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label class="col-lg-3 col-form-label form-control-label"></label>
+        <div class="col-lg-9">
+            <input type="submit" class="btn btn-primary btn-sm" value="Добавить заказ" />
+        </div>
+    </div>
+
+</form>
+
 <!--<form class="form" action="#" data-th-action="@{/orders}" data-th-object="${order}" method="post">-->
 <!--    <div class="table responsive">-->
 <!--        <table class="no-border-on-me table ">-->
