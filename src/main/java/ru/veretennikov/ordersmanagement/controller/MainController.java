@@ -9,6 +9,7 @@ import ru.veretennikov.ordersmanagement.service.GoodsService;
 import ru.veretennikov.ordersmanagement.service.OrderService;
 
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 public class MainController {
@@ -38,12 +39,20 @@ public class MainController {
         return modelAndView;
     }
 
-    @GetMapping("/orders/{orderId}")
-    public ModelAndView order(@PathVariable Integer orderId, ModelAndView modelAndView){
+    @GetMapping(value = {"/orders/{orderId}", "/orders/add"})
+    public ModelAndView order(@PathVariable(required = false) Integer orderId, ModelAndView modelAndView){
+
         modelAndView.setViewName("order.html");
-        modelAndView.addObject("order", orderService.getOrderById(orderId).orElse(new Order()));
+
+        if (!Objects.isNull(orderId))
+            modelAndView.addObject("order", orderService.getOrderById(orderId).orElse(new Order()));
+        else
+            modelAndView.addObject("order", new Order());
+
         modelAndView.addObject("goods", goodsService.getAllGoods());
+
         return modelAndView;
+
     }
 
     @PostMapping("/orders/{orderId}/delete")
