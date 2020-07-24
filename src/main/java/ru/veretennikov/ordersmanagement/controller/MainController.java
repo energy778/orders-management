@@ -9,7 +9,8 @@ import ru.veretennikov.ordersmanagement.service.GoodsService;
 import ru.veretennikov.ordersmanagement.service.OrderService;
 
 import java.util.List;
-import java.util.Objects;
+
+import static java.util.Objects.nonNull;
 
 @Controller
 public class MainController {
@@ -44,7 +45,7 @@ public class MainController {
 
         modelAndView.setViewName("order.html");
 
-        if (!Objects.isNull(orderId))
+        if (nonNull(orderId))
             modelAndView.addObject("order", orderService.getOrderById(orderId).orElse(new Order()));
         else
             modelAndView.addObject("order", new Order());
@@ -63,8 +64,10 @@ public class MainController {
 
     @PostMapping("/orders")
     public String saveOrder(@ModelAttribute("order") Order order){
-        orderService.save(order);
-        return "redirect:/orders";
+        Order orderDB = orderService.save(order);
+//        if (isNull(orderDB))
+//            ошибка сохранения объекта - отдать на клиент
+        return "redirect:/orders/" + orderDB.getId();
     }
 
 }
