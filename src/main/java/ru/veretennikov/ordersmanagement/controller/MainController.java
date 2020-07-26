@@ -71,7 +71,8 @@ public class MainController {
         Order orderDB = orderService.save(order);
 //        if (isNull(orderDB))
 //            ошибка сохранения объекта - отдать на клиент
-        return "redirect:/orders/" + orderDB.getId();
+//        return "redirect:/orders/" + orderDB.getId();
+        return "redirect:/orders";
     }
 
     @GetMapping(value = {"/orders/{orderId}/{orderItemId}", "/orders/{orderId}/add"})

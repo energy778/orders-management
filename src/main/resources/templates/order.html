@@ -12,9 +12,9 @@
 
 <h4 th:text="(${order.num} == null) ? 'Новый заказ' : 'Заказ ' + ${order.num} + ' от ' + ${#temporals.format(order.orderTime, 'dd-MM-yyyy HH:mm')}"/>
 
-<!--шапка заказа-->
 <form role="form" method="post" th:object="${order}" th:action="@{/orders}">
 
+    <!--шапка заказа-->
     <div class="form-group row">
         <div>
             <input type="hidden" th:field="*{id}">
@@ -34,6 +34,9 @@
         <div class="col-lg-9">
             <input type="email" class="form-control" th:field="*{customer}" placeholder="Заказчик">
         </div>
+        <div>
+            <input type="hidden" th:field="*{items}">
+        </div>
     </div>
 
     <div class="form-group row">
@@ -43,63 +46,74 @@
         </div>
     </div>
 
-</form>
-
-<!--табличная часть-->
-<div class="container-fluid">
-    <div class="row">
-        <div class="table-responsive">
-            <table class="table table-hover table-sm" id="dataTable" width="100%" cellspacing="0">
-                <thead>
-                <tr>
-                    <th>Товар</th>
-                    <th>Цена</th>
-                    <th>Количество</th>
-                    <th>Сумма</th>
-                    <th></th>
-                    <th></th>
-                </tr>
-                </thead>
-                <tfoot>
-                <tr>
-                    <th></th>
-                    <th></th>
-                    <th>Итого:</th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <!--                    <th th:if="${sum != 0 && sum != null}"-->
-                    <!--                        th:text="${#numbers.formatDecimal(sum, 0, 'COMMA', 2, 'POINT')}">-->
-                    <!--                    </th>-->
-                </tr>
-                </tfoot>
-                <tbody>
-                <tr th:each="orderItem : ${order.items}">
-                    <td th:text="${orderItem.goodsItem.name}"></td>
-                    <td th:text="${#numbers.formatDecimal(orderItem.price, 0, 'COMMA', 2, 'POINT')}"></td>
-                    <td th:text="${#numbers.formatDecimal(orderItem.quantity, 0, 'COMMA', 0, 'POINT')}"></td>
-                    <td th:text="${#numbers.formatDecimal(orderItem.sum, 0, 'COMMA', 2, 'POINT')}"></td>
-                    <td>
-                        <form th:action="@{/orders/{id}/{orderItemId} (id=${order.id}, orderItemId=${orderItem.id})}" >
-                            <input type="submit" class="btn btn-primary btn-sm"
-                                   data-toggle="tooltip" data-placement="top" title="Редактировать"
-                                   value="V">
-                        </form>
-                    </td>
-                    <td>
-                        <form role="form" th:method="POST" th:object="${orderItem}" th:action="@{/order.html}">
-                            <input type="submit" class="btn btn-primary btn-sm"
-                                   th:method="POST" th:formaction="@{/orders/{id}/{orderItemId}/delete (id=${order.id}, orderItemId=${orderItem.id})}"
-                                   data-toggle="tooltip" data-placement="top" title="Удалить"
-                                   value="X"/>
-                        </form>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+    <!--табличная часть-->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="table-responsive">
+                <table class="table table-hover table-sm" id="dataTable" width="100%" cellspacing="0">
+<!--                    <input type="hidden" th:field="*{items}">-->
+                    <thead>
+                    <tr>
+                        <th>Товар</th>
+                        <th>Цена</th>
+                        <th>Количество</th>
+                        <th>Сумма</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tfoot>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+<!--                        <th>Итого:</th>-->
+                        <th></th>
+                        <th></th>
+                        <!--                    <th th:if="${sum != 0 && sum != null}"-->
+                        <!--                        th:text="${#numbers.formatDecimal(sum, 0, 'COMMA', 2, 'POINT')}">-->
+                        <!--                    </th>-->
+                    </tr>
+                    </tfoot>
+                    <tbody>
+                        <tr th:each="orderItem, i: *{items}">
+                            <td>
+<!--                            <td th:text="${orderItem.goodsItem.name}"></td>-->
+<!--                                <input type="text" th:field="*{items[__${i.index}__].goodsItem.name}"/>-->
+                                <select th:field="*{items[__${i.index}__].goodsItem}">
+                                    <option th:each="goodsItem : ${goods}"
+                                            th:value="${goodsItem.id}"
+                                            th:text="${goodsItem.name}">Wireframe</option>
+                                </select>
+<!--                                https://habr.com/ru/post/435080/-->
+                            </td>
+                            <td>
+                                <input type="text" th:field="*{items[__${i.index}__].price}"/>
+<!--                            <td th:text="${#numbers.formatDecimal(orderItem.price, 0, 'COMMA', 2, 'POINT')}"></td>-->
+                            </td>
+                            <td>
+                                <input type="text" th:field="*{items[__${i.index}__].quantity}"/>
+<!--                            <td th:text="${#numbers.formatDecimal(orderItem.quantity, 0, 'COMMA', 0, 'POINT')}"></td>-->
+                            </td>
+                            <td>
+                                <input type="text" th:field="*{items[__${i.index}__].sum}"/>
+<!--                            <td th:text="${#numbers.formatDecimal(orderItem.sum, 0, 'COMMA', 2, 'POINT')}"></td>-->
+                            </td>
+                            <td>
+                                <form role="form" th:method="POST" th:object="${orderItem}" th:action="@{/order.html}">
+                                    <input type="submit" class="btn btn-primary btn-sm"
+                                           th:method="POST" th:formaction="@{/orders/{id}/{orderItemId}/delete (id=*{id}, orderItemId=${orderItem.id})}"
+                                           data-toggle="tooltip" data-placement="top" title="Удалить"
+                                           value="X"/>
+                                </form>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
-</div>
+
+</form>
 
 <th:block th:insert="~{/parts/common.html :: script}"></th:block>
 
