@@ -67,6 +67,8 @@
                     <th>Заказчик</th>
                     <th>Время заказа</th>
                     <th>Сумма заказа</th>
+                    <th></th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tfoot>
@@ -77,6 +79,8 @@
                     <th th:if="${sum != 0 && sum != null}"
                         th:text="${#numbers.formatDecimal(sum, 0, 'COMMA', 2, 'POINT')}">
                     </th>
+                    <th></th>
+                    <th></th>
                 </tr>
                 </tfoot>
                 <tbody>
