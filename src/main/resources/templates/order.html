@@ -107,20 +107,12 @@
 <!--                            <td th:text="${#numbers.formatDecimal(orderItem.sum, 0, 'COMMA', 2, 'POINT')}"></td>-->
                             </td>
                             <td>
-                                <form role="form" th:object="${order}" th:method="POST" th:action="@{/order.html}">
-                                    <input type="submit" class="btn btn-primary btn-sm"
-                                           th:method="POST" th:formaction="@{/orders/{id}/add (id=*{id})}"
-                                           data-toggle="tooltip" data-placement="top" title="Добавить"
-                                           value="+"/>
-                                </form>
+                                <input type="submit" class="btn btn-primary btn-sm"
+                                       th:formaction="@{/orders/{id}/add (id=*{id})}" title="Добавить" value="+"/>
                             </td>
                             <td>
-                                <form role="form" th:method="POST" th:object="${order}" th:action="@{/order.html}">
-                                    <input type="submit" class="btn btn-primary btn-sm"
-                                           th:method="POST" th:formaction="@{/orders/{id}/{orderItemId}/delete (id=*{id}, orderItemId=${orderItem.id})}"
-                                           data-toggle="tooltip" data-placement="top" title="Удалить"
-                                           value="X"/>
-                                </form>
+                                <input type="submit" class="btn btn-primary btn-sm"
+                                       th:formaction="@{/orders/{id}/{orderItemId}/delete (id=*{id}, orderItemId=${orderItem.id})}" title="Удалить" value="X"/>
                             </td>
                         </tr>
                     </tbody>

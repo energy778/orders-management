@@ -12,6 +12,7 @@ import ru.veretennikov.ordersmanagement.service.OrderService;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
 @Controller
@@ -86,7 +87,17 @@ public class MainController {
                                      ModelAndView modelAndView){
 
         modelAndView.setViewName("order.html");
-        order.getItems().add(new OrderItem());
+        OrderItem newItem = new OrderItem();
+        newItem.setId(-1);
+        order.getItems().add(newItem);
+
+//        временная заглушка
+        order.setItems(order.getItems().stream()
+                .peek(orderItem -> {
+                    if (isNull(orderItem.getId()))
+                        orderItem.setId(-1);
+                }).collect(Collectors.toList()));
+
         modelAndView.addObject("order", order);
         modelAndView.addObject("goods", goodsService.getAllGoods());
 
