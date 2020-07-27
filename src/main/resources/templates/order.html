@@ -59,20 +59,28 @@
                         <th>Количество</th>
                         <th>Сумма</th>
                         <th></th>
+<!--                        <th>-->
+<!--                            <form role="form" th:method="POST" th:object="${order}" th:action="@{/order.html}">-->
+<!--                                <input type="submit" class="btn btn-primary btn-sm"-->
+<!--                                       th:method="POST" th:formaction="@{/orders/{id}/add (id=*{id})}"-->
+<!--                                       data-toggle="tooltip" data-placement="top" title="Добавить строку"-->
+<!--                                       value="+"/>-->
+<!--                            </form>-->
+<!--                        </th>-->
                     </tr>
                     </thead>
                     <tfoot>
-                    <tr>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-<!--                        <th>Итого:</th>-->
-                        <th></th>
-                        <th></th>
-                        <!--                    <th th:if="${sum != 0 && sum != null}"-->
-                        <!--                        th:text="${#numbers.formatDecimal(sum, 0, 'COMMA', 2, 'POINT')}">-->
-                        <!--                    </th>-->
-                    </tr>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+    <!--                        <th>Итого:</th>-->
+                            <th></th>
+                            <th></th>
+                            <!--                    <th th:if="${sum != 0 && sum != null}"-->
+                            <!--                        th:text="${#numbers.formatDecimal(sum, 0, 'COMMA', 2, 'POINT')}">-->
+                            <!--                    </th>-->
+                        </tr>
                     </tfoot>
                     <tbody>
                         <tr th:each="orderItem, i: *{items}">
@@ -82,7 +90,7 @@
                                 <select th:field="*{items[__${i.index}__].goodsItem}">
                                     <option th:each="goodsItem : ${goods}"
                                             th:value="${goodsItem.id}"
-                                            th:text="${goodsItem.name}">Wireframe</option>
+                                            th:text="${goodsItem.name}"></option>
                                 </select>
 <!--                                https://habr.com/ru/post/435080/-->
                             </td>
@@ -99,7 +107,15 @@
 <!--                            <td th:text="${#numbers.formatDecimal(orderItem.sum, 0, 'COMMA', 2, 'POINT')}"></td>-->
                             </td>
                             <td>
-                                <form role="form" th:method="POST" th:object="${orderItem}" th:action="@{/order.html}">
+                                <form role="form" th:object="${order}" th:method="POST" th:action="@{/order.html}">
+                                    <input type="submit" class="btn btn-primary btn-sm"
+                                           th:method="POST" th:formaction="@{/orders/{id}/add (id=*{id})}"
+                                           data-toggle="tooltip" data-placement="top" title="Добавить"
+                                           value="+"/>
+                                </form>
+                            </td>
+                            <td>
+                                <form role="form" th:method="POST" th:object="${order}" th:action="@{/order.html}">
                                     <input type="submit" class="btn btn-primary btn-sm"
                                            th:method="POST" th:formaction="@{/orders/{id}/{orderItemId}/delete (id=*{id}, orderItemId=${orderItem.id})}"
                                            data-toggle="tooltip" data-placement="top" title="Удалить"

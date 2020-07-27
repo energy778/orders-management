@@ -7,10 +7,10 @@ import ru.veretennikov.ordersmanagement.domain.Order;
 import ru.veretennikov.ordersmanagement.domain.OrderItem;
 import ru.veretennikov.ordersmanagement.dto.OrderDTO;
 import ru.veretennikov.ordersmanagement.service.GoodsService;
-import ru.veretennikov.ordersmanagement.service.OrderItemService;
 import ru.veretennikov.ordersmanagement.service.OrderService;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static java.util.Objects.nonNull;
 
@@ -19,13 +19,13 @@ public class MainController {
 
     private final OrderService orderService;
     private final GoodsService goodsService;
-    private final OrderItemService orderItemService;
 
-    public MainController(OrderService orderService, GoodsService goodsService, OrderItemService orderItemService) {
+    public MainController(OrderService orderService, GoodsService goodsService) {
         this.orderService = orderService;
         this.goodsService = goodsService;
-        this.orderItemService = orderItemService;
     }
+
+//    список товаров
 
     @GetMapping("/goods")
     public ModelAndView goods(ModelAndView modelAndView){
@@ -34,15 +34,18 @@ public class MainController {
         return modelAndView;
     }
 
+//    список заказов
+
     @RequestMapping(value = {"/", "/orders"}, method = RequestMethod.GET)
     public ModelAndView orders(ModelAndView modelAndView){
         modelAndView.setViewName("orders.html");
         List<OrderDTO> allOrders = orderService.getAllOrders();
         modelAndView.addObject("orders", allOrders);
-        modelAndView.addObject("order", new Order());
         modelAndView.addObject("sum", allOrders.stream().mapToDouble(OrderDTO::getSum).sum());
         return modelAndView;
     }
+
+//    заказ
 
     @GetMapping(value = {"/orders/{orderId}", "/orders/add"})
     public ModelAndView updateOrder(@PathVariable(required = false) Integer orderId, ModelAndView modelAndView){
@@ -75,16 +78,16 @@ public class MainController {
         return "redirect:/orders";
     }
 
-    @GetMapping(value = {"/orders/{orderId}/{orderItemId}", "/orders/{orderId}/add"})
-    public ModelAndView updateOrderItem(@PathVariable(required = false) Integer orderItemId, ModelAndView modelAndView){
+//    состав заказа
 
-        modelAndView.setViewName("orderItem.html");
+    @PostMapping(value = {"/orders/{orderId}/add"})
+    public ModelAndView addOrderItem(@PathVariable Integer orderId,
+                                     @ModelAttribute("order") Order order,
+                                     ModelAndView modelAndView){
 
-        if (nonNull(orderItemId))
-            modelAndView.addObject("order", orderItemService.getOrderItemById(orderItemId).orElse(new OrderItem()));
-        else
-            modelAndView.addObject("order", new OrderItem());
-
+        modelAndView.setViewName("order.html");
+        order.getItems().add(new OrderItem());
+        modelAndView.addObject("order", order);
         modelAndView.addObject("goods", goodsService.getAllGoods());
 
         return modelAndView;
@@ -92,9 +95,20 @@ public class MainController {
     }
 
     @PostMapping("/orders/{orderId}/{orderItemId}/delete")
-    public String deleteOrderItem(@PathVariable Integer orderItemId){
-        orderItemService.deleteById(orderItemId);
-        return "redirect:/orders";
+    public ModelAndView deleteOrderItem(@PathVariable Integer orderItemId,
+                                        @ModelAttribute("order") Order order,
+                                        ModelAndView modelAndView){
+
+        modelAndView.setViewName("order.html");
+        order.setItems(order.getItems().stream()
+                .filter(orderItem -> !orderItem.getId().equals(orderItemId))
+                .collect(Collectors.toList()));
+
+        modelAndView.addObject("order", order);
+        modelAndView.addObject("goods", goodsService.getAllGoods());
+
+        return modelAndView;
+
     }
 
 }
