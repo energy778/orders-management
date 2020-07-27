@@ -12,7 +12,6 @@ import ru.veretennikov.ordersmanagement.service.OrderService;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
 @Controller
@@ -48,7 +47,18 @@ public class MainController {
 
 //    заказ
 
-    @GetMapping(value = {"/orders/{orderId}", "/orders/add"})
+    @GetMapping(value = {"/orders/add"})
+    public ModelAndView createOrder(ModelAndView modelAndView){
+
+        modelAndView.setViewName("order.html");
+        modelAndView.addObject("order", new Order());
+        modelAndView.addObject("goods", goodsService.getAllGoods());
+
+        return modelAndView;
+
+    }
+
+    @GetMapping(value = {"/orders/{orderId}"})
     public ModelAndView updateOrder(@PathVariable(required = false) Integer orderId, ModelAndView modelAndView){
 
         modelAndView.setViewName("order.html");
@@ -87,16 +97,12 @@ public class MainController {
                                      ModelAndView modelAndView){
 
         modelAndView.setViewName("order.html");
+
+        // FIXME: 27.07.2020
+//        order.getItems().add(new OrderItem());
         OrderItem newItem = new OrderItem();
         newItem.setId(-1);
         order.getItems().add(newItem);
-
-//        временная заглушка
-        order.setItems(order.getItems().stream()
-                .peek(orderItem -> {
-                    if (isNull(orderItem.getId()))
-                        orderItem.setId(-1);
-                }).collect(Collectors.toList()));
 
         modelAndView.addObject("order", order);
         modelAndView.addObject("goods", goodsService.getAllGoods());
