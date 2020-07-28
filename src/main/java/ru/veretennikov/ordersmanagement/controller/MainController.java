@@ -1,6 +1,8 @@
 package ru.veretennikov.ordersmanagement.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import ru.veretennikov.ordersmanagement.domain.Order;
@@ -9,7 +11,9 @@ import ru.veretennikov.ordersmanagement.dto.OrderDTO;
 import ru.veretennikov.ordersmanagement.service.GoodsService;
 import ru.veretennikov.ordersmanagement.service.OrderService;
 
+import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static java.util.Objects.nonNull;
@@ -37,7 +41,8 @@ public class MainController {
 //    список заказов
 
     @RequestMapping(value = {"/", "/orders"}, method = RequestMethod.GET)
-    public ModelAndView orders(ModelAndView modelAndView){
+    public ModelAndView orders(ModelAndView modelAndView,
+                               Model model){
         modelAndView.setViewName("orders.html");
         List<OrderDTO> allOrders = orderService.getAllOrders();
         modelAndView.addObject("orders", allOrders);
@@ -59,7 +64,9 @@ public class MainController {
     }
 
     @GetMapping(value = {"/orders/{orderId}"})
-    public ModelAndView updateOrder(@PathVariable(required = false) Integer orderId, ModelAndView modelAndView){
+    public ModelAndView updateOrder(@PathVariable(required = false) Integer orderId,
+                                    ModelAndView modelAndView,
+                                    Model model){
 
         modelAndView.setViewName("order.html");
 
@@ -81,12 +88,20 @@ public class MainController {
     }
 
     @PostMapping("/orders")
-    public String saveOrder(@ModelAttribute("order") Order order){
-        Order orderDB = orderService.save(order);
-//        if (isNull(orderDB))
-//            ошибка сохранения объекта - отдать на клиент
-//        return "redirect:/orders/" + orderDB.getId();
+    public String saveOrder(@Valid @ModelAttribute("order") Order order,
+                            BindingResult bindingResult,
+                            Model model){
+
+        if (bindingResult.hasErrors()){
+            Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
+            model.mergeAttributes(errorsMap);
+            return "redirect:/orders/" + order.getId();
+        } else {
+            Order orderDB = orderService.save(order);
+        }
+
         return "redirect:/orders";
+
     }
 
 //    состав заказа

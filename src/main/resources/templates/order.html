@@ -16,12 +16,21 @@
 
     <!--шапка заказа-->
     <div class="form-group row">
+        <div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">
+            <p th:each="err : ${#fields.errors('*')}" th:text="${err}"></p>
+        </div>
         <div>
             <input type="hidden" th:field="*{id}">
         </div>
         <label class="col-lg-3 col-form-label form-control-label">Номер заказа</label>
         <div class="col-lg-9">
             <input type="number" class="form-control" th:field="*{num}" placeholder="Номер заказа">
+<!--            <div th:if="${#fields.hasErrors('num')}" th:errors="*{num}">Name Error</div>-->
+<!--            <input type="number" th:field="*{num}"-->
+<!--                   th:class="${#fields.hasErrors('num')}? fieldError" />-->
+        </div>
+        <div class="invalid-feedback">
+            ${textError}
         </div>
         <label class="col-lg-3 col-form-label form-control-label">Время заказа</label>
         <div class="col-lg-9">
