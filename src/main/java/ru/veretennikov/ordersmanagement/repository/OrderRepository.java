@@ -11,14 +11,6 @@ import java.util.List;
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Integer> {
 
-//    @Query(value = "SELECT " +
-//            "new ru.veretennikov.ordersmanagement.dto.OrderDTO" +
-//            "(t1.id, t1.num, t1.orderTime, t1.customer, sum(t1.items.sum)) " +
-//            "FROM Order as t1 " +
-//            " ORDER BY t1.num"
-//    )
-//    List<OrderDTO> findAllWithSum();
-
     @Query(value = "SELECT " +
             "new ru.veretennikov.ordersmanagement.dto.OrderDTO" +
             "(t1.id, t1.num, t1.orderTime, t1.customer, sum(coalesce(t2.sum, 0))) " +

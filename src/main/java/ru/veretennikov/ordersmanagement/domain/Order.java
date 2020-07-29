@@ -18,32 +18,25 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-//    @NotBlank(message = "Номер не может быть пустым")
-//    @NotNull(message = "Номер не может быть null")
-//    @NotEmpty(message = "Номер не может быть null")
-//    @Null(message = "Номер не может быть null")
-//    @Positive(message = "Номер не может быть равным нулю")
-//    @PositiveOrZero(message = "Номер не может быть равным нулю")
-    @Min(value = 0L, message = "The value must be positive")
-    @NotNull
+    @NotNull(message = "Номер не может быть null")
+    @Positive(message = "Номер должен быть больше нуля")
     private Long num;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @Column(name = "order_time", columnDefinition = "TIMESTAMP")
-    @NotNull(message = "Дата заказа не может быть пустой")
-//    @NotBlank(message = "Дата заказа не может быть пустой")
-//    @NotEmpty(message = "Дата заказа не может быть пустой")
+    @NotNull(message = "Дата заказа не может быть null")
+//    @FutureOrPresent(message = "Дата заказа не может быть меньше текущей")
     private LocalDateTime orderTime;
 
-    @Email(message = "Укажите электронную почту заказчика")
-    @NotBlank(message = "Укажите электронную почту заказчика")
+    @Email(message = "Укажите электронную почту заказчика в корректном формате")
+    @NotEmpty(message = "Адрес не может быть пустым")
     private String customer;
 
     @OneToMany(fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-//    @NotBlank(message = "Состав заказа не может быть пустым")
+//    @NotEmpty(message = "Состав заказа не может быть пустым")
     private List<OrderItem> items;
 
     public Order() {

@@ -3,47 +3,59 @@
 
 <head>
     <th:block th:insert="~{/parts/common.html :: header}"></th:block>
-    <title th:text="(${order.num} == null) ? 'Новый заказ' : 'Заказ ' + ${order.num} + ' от ' + ${#temporals.format(order.orderTime, 'dd-MM-yyyy HH:mm')}"></title>
+    <title th:text="(${order.id} == null) ? 'Новый заказ' : 'Заказ ' + ${order.num} + ' от ' + ${#temporals.format(order.orderTime, 'dd-MM-yyyy HH:mm')}"></title>
 </head>
 
 <body>
 
 <th:block th:insert="~{/parts/common.html :: topbar}"></th:block>
 
-<h4 th:text="(${order.num} == null) ? 'Новый заказ' : 'Заказ ' + ${order.num} + ' от ' + ${#temporals.format(order.orderTime, 'dd-MM-yyyy HH:mm')}"/>
+<h4 th:text="(${order.id} == null) ? 'Новый заказ' : 'Заказ ' + ${order.num} + ' от ' + ${#temporals.format(order.orderTime, 'dd-MM-yyyy HH:mm')}"/>
 
 <form role="form" method="post" th:object="${order}" th:action="@{/orders}">
 
     <!--шапка заказа-->
     <div class="form-group row">
-        <div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">
-            <p th:each="err : ${#fields.errors('*')}" th:text="${err}"></p>
-        </div>
         <div>
             <input type="hidden" th:field="*{id}">
         </div>
         <label class="col-lg-3 col-form-label form-control-label">Номер заказа</label>
         <div class="col-lg-9">
-            <input type="number" class="form-control" th:field="*{num}" placeholder="Номер заказа">
-<!--            <div th:if="${#fields.hasErrors('num')}" th:errors="*{num}">Name Error</div>-->
-<!--            <input type="number" th:field="*{num}"-->
-<!--                   th:class="${#fields.hasErrors('num')}? fieldError" />-->
-        </div>
-        <div class="invalid-feedback">
-            ${textError}
+            <input type="number"
+                   class="form-control"
+                   th:field="*{num}"
+                   placeholder="Номер заказа"
+            />
+            <p class="text-danger" th:if="${#fields.hasErrors('num')}" th:errors="*{num}">Некорректный ввод</p>
         </div>
         <label class="col-lg-3 col-form-label form-control-label">Время заказа</label>
         <div class="col-lg-9">
-            <input type="datetime-local" class="form-control" th:field="*{orderTime}" placeholder="Время заказа">
+            <input type="datetime-local"
+                   class="form-control"
+                   th:field="*{orderTime}"
+                   placeholder="Время заказа"
+            />
+            <p class="text-danger" th:if="${#fields.hasErrors('orderTime')}" th:errors="*{orderTime}">Некорректный ввод</p>
         </div>
         <label class="col-lg-3 col-form-label form-control-label">Заказчик</label>
         <div class="col-lg-9">
-            <input type="email" class="form-control" th:field="*{customer}" placeholder="Заказчик">
+            <input type="email"
+                   class="form-control"
+                   th:field="*{customer}"
+                   placeholder="Заказчик"
+            />
+            <p class="text-danger" th:if="${#fields.hasErrors('customer')}" th:errors="*{customer}">Некорректный ввод</p>
         </div>
         <div>
             <input type="hidden" th:field="*{items}">
         </div>
     </div>
+
+<!--&lt;!&ndash;    вывод оставшихся необработанных ошибок&ndash;&gt;-->
+<!--    <div th:if="${#fields.hasErrors('*')}">errors</div>-->
+<!--    <ul>-->
+<!--        <li th:each="err : ${#fields.errors('*')}" th:text="${err}" />-->
+<!--    </ul>-->
 
     <div class="form-group row">
         <label class="col-lg-3 col-form-label form-control-label"></label>
@@ -52,9 +64,9 @@
         </div>
     </div>
 
-    <div th:if="(${order.num} != null)">
+    <!--табличная часть-->
+    <div th:if="(${order.id} != null)">
 
-        <!--табличная часть-->
         <div class="container-fluid">
             <div class="row">
                 <div class="table-responsive">
@@ -73,44 +85,60 @@
                         </tr>
                         </thead>
                         <tfoot>
-                            <tr>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                            </tr>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
                         </tfoot>
                         <tbody>
-                            <tr th:each="orderItem, i: *{items}">
-                                <td>
-                                    <input type="hidden" th:field="*{items[__${i.index}__].id}"/>
-                                </td>
-                                <td>
-                                    <select th:field="*{items[__${i.index}__].goodsItem}">
-                                        <option th:each="goodsItem : ${goods}"
-                                                th:value="${goodsItem.id}"
-                                                th:text="${goodsItem.name}"></option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <input type="text" th:field="*{items[__${i.index}__].price}"/>
-    <!--                            <td th:text="${#numbers.formatDecimal(orderItem.price, 0, 'COMMA', 2, 'POINT')}"></td>-->
-                                </td>
-                                <td>
-                                    <input type="text" th:field="*{items[__${i.index}__].quantity}"/>
-    <!--                            <td th:text="${#numbers.formatDecimal(orderItem.quantity, 0, 'COMMA', 0, 'POINT')}"></td>-->
-                                </td>
-                                <td>
-                                    <input type="text" th:field="*{items[__${i.index}__].sum}"/>
-    <!--                            <td th:text="${#numbers.formatDecimal(orderItem.sum, 0, 'COMMA', 2, 'POINT')}"></td>-->
-                                </td>
-                                <td>
-                                    <input type="submit" class="btn btn-primary btn-sm"
-                                           th:formaction="@{/orders/{id}/{orderItemId}/delete (id=*{id}, orderItemId=${orderItem.id})}" title="Удалить" value="X"/>
-                                </td>
-                            </tr>
+                        <tr th:each="orderItem, i: *{items}">
+                            <td>
+                                <input type="hidden" th:field="*{items[__${i.index}__].id}"/>
+                            </td>
+                            <td>
+                                <select th:field="*{items[__${i.index}__].goodsItem}">
+                                    <option th:each="goodsItem : ${goods}"
+                                            th:value="${goodsItem.id}"
+                                            th:text="${goodsItem.name}"></option>
+                                </select>
+                            </td>
+                            <td>
+<!--                            <td th:text="${#numbers.formatDecimal(orderItem.price, 0, 'COMMA', 2, 'POINT')}"></td>-->
+<!--                                <input type="text" th:field="*{items[__${i.index}__].price}"/>-->
+                                <input type="number"
+                                       class="form-control"
+                                       th:field="*{items[__${i.index}__].price}"
+                                       placeholder="Цена"
+                                />
+<!--                                <p class="text-danger" th:if="${#fields.hasErrors('*{items[__${i.index}__].price}')}" th:errors="*{items[__${i.index}__].price}">Некорректный ввод</p>-->
+                            </td>
+                            <td>
+<!--                            <td th:text="${#numbers.formatDecimal(orderItem.quantity, 0, 'COMMA', 0, 'POINT')}"></td>-->
+<!--                                <input type="text" th:field="*{items[__${i.index}__].quantity}"/>-->
+                                <input type="number"
+                                       class="form-control"
+                                       th:field="*{items[__${i.index}__].quantity}"
+                                       placeholder="Количество"
+                                />
+                            </td>
+                            <td>
+<!--                            <td th:text="${#numbers.formatDecimal(orderItem.sum, 0, 'COMMA', 2, 'POINT')}"></td>-->
+<!--                                <input type="text" th:field="*{items[__${i.index}__].sum}"/>-->
+                                <input type="number"
+                                       class="form-control"
+                                       th:field="*{items[__${i.index}__].sum}"
+                                       placeholder="Сумма"
+                                />
+                            </td>
+                            <td>
+                                <input type="submit" class="btn btn-primary btn-sm"
+                                       th:formaction="@{/orders/{id}/{orderItemId}/delete (id=*{id}, orderItemId=${orderItem.id})}" title="Удалить" value="X"/>
+                            </td>
+                        </tr>
                         </tbody>
                     </table>
                 </div>

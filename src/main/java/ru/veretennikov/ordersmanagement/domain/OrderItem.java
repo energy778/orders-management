@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
 @Data
@@ -22,16 +23,16 @@ public class OrderItem {
 //    @NotBlank(message = "Укажите товар")
     private Goods goodsItem;
 
-//    @NotBlank(message = "Цена не может быть равной нулю")
-//    @Positive(message = "Цена не может быть равной нулю")
+//    @NotNull(message = "Поле должно быть заполнено")
+//    @Positive(message = "Цена должна быть больше 0")
     private Float price;
 
-//    @NotBlank(message = "Количество не может быть равным нулю")
-//    @Positive(message = "Количество не может быть равным нулю")
+//    @NotNull(message = "Поле должно быть заполнено")
+//    @Positive(message = "Количество должно быть больше 0")
     private Integer quantity;
 
-//    @NotBlank(message = "Сумма не может быть равной нулю")
-//    @Positive(message = "Сумма не может быть равной нулю")
+//    @NotNull(message = "Поле должно быть заполнено")
+//    @Positive(message = "Сумма должна быть больше 0")
     private Float sum;
 
 }
