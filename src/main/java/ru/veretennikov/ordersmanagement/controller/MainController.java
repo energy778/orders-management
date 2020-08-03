@@ -2,9 +2,7 @@ package ru.veretennikov.ordersmanagement.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.support.BindingAwareModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import ru.veretennikov.ordersmanagement.domain.Order;
@@ -14,13 +12,10 @@ import ru.veretennikov.ordersmanagement.service.GoodsService;
 import ru.veretennikov.ordersmanagement.service.OrderService;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
 @Controller

@@ -100,7 +100,7 @@
                                 <input type="hidden" th:field="*{items[__${i.index}__].id}"/>
                             </td>
                             <td>
-                                <select th:field="*{items[__${i.index}__].goodsItem}">
+                                <select class="form-control" th:field="*{items[__${i.index}__].goodsItem}">
                                     <option th:each="goodsItem : ${goods}"
                                             th:value="${goodsItem.id}"
                                             th:text="${goodsItem.name}"></option>
